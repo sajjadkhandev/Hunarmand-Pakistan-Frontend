@@ -5,12 +5,18 @@
 
 import axios from 'axios';
 
+const defaultBaseURL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? 'https://hunarmand-pakistan-backend.onrender.com/api'
+    : 'http://localhost:5000/api');
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: defaultBaseURL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  timeout: 30000,
 });
 
 // Request Interceptor: Attach JWT Token if available
@@ -31,11 +37,21 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
+    let message =
+      error.response?.data?.message ||
+      error.message ||
+      'An unexpected error occurred while communicating with the server.';
+
+    if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+      message =
+        'Server response timeout: Backend server se rabta nahi ho saka. Agar aapka backend Render par so raha hai to thori dair mein khud ba khud active ho jayega, baraye meharbani dobara koshish karein.';
+    } else if (error.message?.includes('Network Error')) {
+      message =
+        'Network Error: Backend server reach nahi ho raha. Check karein ke live backend active hai.';
+    }
+
     const customError = {
-      message:
-        error.response?.data?.message ||
-        error.message ||
-        'An unexpected error occurred while communicating with the server.',
+      message,
       status: error.response?.status || null,
       data: error.response?.data || null,
     };
