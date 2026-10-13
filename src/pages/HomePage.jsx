@@ -111,11 +111,6 @@ const HomePage = () => {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 px-4 py-1.5 rounded-full text-emerald-200 text-xs sm:text-sm font-semibold backdrop-blur-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            🇵🇰 Pakistan’s Verified Skilled Marketplace
-          </div>
-
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
             Pakistan ke Hunarmand Log, <br />
             <span className="text-amber-300">Aap Ke Qareeb.</span>
